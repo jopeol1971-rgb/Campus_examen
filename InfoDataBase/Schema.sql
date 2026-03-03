@@ -59,7 +59,7 @@ CREATE TABLE eventos_asignatura (
 CREATE OR REPLACE FUNCTION crear_evento_bienvenida()
 RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO eventos (id_usuario, fecha, titulo, descripcion, creado_en)
+    INSERT INTO eventos (id_usuarios, fecha, titulo, descripcion, creado_en)
     VALUES (
         NEW.id_usuarios,
         CURRENT_DATE,
