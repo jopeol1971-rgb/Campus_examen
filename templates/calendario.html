@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Calendario de {{ usuario }}</h2>
+<div class="controls">
+    <a href="{{ url_for('alumno_bp.calendario', year=prev_year, month=prev_month) }}" class="btn btn-secondary">&laquo; Mes anterior</a>
+    <span class="mx-3">{{ year }} - {{ '%02d'|format(month) }}</span>
+    <a href="{{ url_for('alumno_bp.calendario', year=next_year, month=next_month) }}" class="btn btn-secondary">Mes siguiente &raquo;</a>
+</div>
+
+<table class="calendar-table">
+    <thead>
+        <tr>
+            <th>Dom</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in weeks %}
+        <tr>
+            {% for day in week %}
+                {% if day == 0 %}
+                    <td class="empty"></td>
+                {% else %}
+                    {% set classes = [] %}
+                    {% if events_by_day.get(day) %}
+                        {% set classes = classes + ['has-event'] %}
+                    {% endif %}
+                    <td class="day {{ classes|join(' ') }}" data-date="{{ year }}-{{ '%02d'|format(month) }}-{{ '%02d'|format(day) }}">{{ day }}</td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- container for day detail -->
+<div id="detalle-dia" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span id="cerrar-detalle" class="close">&times;</span>
+        <h3 id="detalle-fecha"></h3>
+        <ul id="detalle-eventos"></ul>
+        <hr />
+        <h4>Agregar evento</h4>
+        <form id="form-evento" method="post" action="{{ url_for('alumno_bp.crear_evento') }}">
+            <input type="hidden" name="fecha" id="input-fecha" value="" />
+            <div>
+                <label>Título</label><br>
+                <input type="text" name="titulo" required />
+            </div>
+            <div>
+                <label>Descripción</label><br>
+                <textarea name="descripcion" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Guardar evento</button>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='calendario.js') }}"></script>
+
+{% endblock %}

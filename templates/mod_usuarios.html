@@ -1,0 +1,54 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+
+    <h2>Página de Registro</h2>
+    
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    
+    <form method="POST" action="/mod_usuarios">
+
+        <label>Usuario:</label>
+        <input type="text" name="user" ><br><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" ><br><br>
+
+        <label>Fecha de alta:</label>        
+        <input type="date" name="date" value="0001-01-01"><br><br>
+
+        <button type="submit">Buscar</button>
+    
+    </form>
+
+    <div>
+        <ul id="usuario_lista">
+            {% if usuarios %}
+                {% for u in usuarios %}
+                    <li id="{{ u.usuario }}"><strong>{{ u.usuario }}</strong> — {{ u.email }} — {{ u.creado_en }} <button type="button" onclick="location.href='{{ request.path }}/{{ u.usuario }}'">Modificar Usuario</button></li>
+                {% endfor %}
+            {% else %}
+                <li>No se encontraron usuarios</li>
+            {% endif %}
+
+        </ul>
+
+    </div>
+
+    {% if usuario_a_modificar %}
+        <hr>
+        <h3>Modificar usuario: {{ usuario_a_modificar.usuario }}</h3>
+        <form method="POST" action="{{ request.path }}">
+            <label>Usuario:</label>
+            <input type="text" name="user" value="{{ usuario_a_modificar.usuario }}" required><br><br>
+
+            <label>Email:</label>
+            <input type="email" name="email" value="{{ usuario_a_modificar.email }}" required><br><br>
+
+            <button type="submit">Guardar cambios</button>
+        </form>
+    {% endif %}
+
+{% endblock %}
