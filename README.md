@@ -10,7 +10,7 @@ El proyecto está organizado en varios directorios y archivos para separar respo
 - `routes/`: contiene los módulos de rutas (`admin.py`, `alumno.py`, `profesor.py`) que definen los endpoints y controladores.
 - `templates/` y `static/`: recursos de la interfaz web (HTML, CSS, JS).
 - `InfoDataBase/Schema.sql`: esquema de la base de datos.
-- `requeriments.txt`/`requirements.txt`: dependencias de Python.
+- `requirements.txt`: dependencias de Python.
 - Carpeta `desechables/`: archivos de apoyo o documentación temporal.
 
 Esta organización facilita el mantenimiento y la ampliación del sistema.
